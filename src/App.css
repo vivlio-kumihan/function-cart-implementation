@@ -1,8 +1,13 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;600;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400;500;600&display=swap");
+:root {
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+:root body {
+  border: none;
+  line-height: 1;
+  font-feature-settings: "palt";
 }
 
 .App-header {

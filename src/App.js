@@ -25,18 +25,25 @@ const App = () => {
 		}
 	]);
 
+  // カートの状態　空の配列
 	const [cartCourses, setCartCourses] = useState([]);
+  // 検索の状態　空の文字列
 	const [searchCourse, setSearchCourse] = useState('');
 
+  // カートに追加していく関数
 	const addCourseToCartFunction = (GFGcourse) => {
-		const alreadyCourses = cartCourses
-							.find(item => item.product.id === GFGcourse.id);
+    // カートがすでに開かれているか否かで処理を変える。
+    // 質問　console.log(...)をして真偽値が返ってくると期待してたが何も出てこない。
+		const alreadyCourses = cartCourses.find(item => item.product.id === GFGcourse.id);
 		if (alreadyCourses) {
 			const latestCartUpdate = cartCourses.map(item =>
 				item.product.id === GFGcourse.id ? { ...item, quantity: item.quantity + 1 } : item
 			);
+      // 質問　状態の更新をしているのはわかるが、それまでの過程が見えてない。
 			setCartCourses(latestCartUpdate);
 		} else {
+      // 質問　こちらは値は返ってくる。
+      console.log(...cartCourses);
 			setCartCourses([...cartCourses, {product: GFGcourse, quantity: 1}]);
 		}
 	};

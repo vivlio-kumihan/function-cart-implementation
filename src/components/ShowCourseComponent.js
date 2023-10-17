@@ -18,7 +18,7 @@ const ShowCourseComponent = ({ courses, filterCourseFunction, addCourseToCartFun
 							className="add-to-cart-button"
 							onClick={() => addCourseToCartFunction(product)}
 						>
-							Add to Shopping Cart
+							カートに追加
 						</button>
 					</div>
 				))
