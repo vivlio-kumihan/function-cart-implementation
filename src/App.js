@@ -7,6 +7,9 @@ import UserCartComponent from './components/UserCartComponent';
 import './App.css';
 
 const App = () => {
+  // 現状、商品データをトップで状態にしている。
+  // 宿題: コードを理解してから別のファイルにするべき。
+  // なお、courses => 『課目』のことです。
 	const [courses, setCourses] = useState([
 		{ id: 1, 
 		name: 'GFG T-shirt', 
@@ -30,20 +33,25 @@ const App = () => {
   // 検索の状態　空の文字列
 	const [searchCourse, setSearchCourse] = useState('');
 
-  // カートに追加していく関数
+  // カートに商品を追加していく関数
+  // ShowCourseComponentコンポーネントでボタンが押されたら
+  // プロップス(選択した課目)が渡ってくる。
 	const addCourseToCartFunction = (GFGcourse) => {
     // カートがすでに開かれているか否かで処理を変える。
-    // 質問　console.log(...)をして真偽値が返ってくると期待してたが何も出てこない。
+    // 最初は`undefined`。次のクリックから選択した課目がオブジェクトで入っている。
 		const alreadyCourses = cartCourses.find(item => item.product.id === GFGcourse.id);
+    console.log(alreadyCourses);
+    // すでにカートに登録されている課目であれば追加する。
 		if (alreadyCourses) {
+      // 単純に追加してない。なかなか疑り深い。
+      // 同じidだったらquantity=>数量を1つプラスする。それ以外は新規で追加。
 			const latestCartUpdate = cartCourses.map(item =>
 				item.product.id === GFGcourse.id ? { ...item, quantity: item.quantity + 1 } : item
 			);
-      // 質問　状態の更新をしているのはわかるが、それまでの過程が見えてない。
+      // 処理を済ませて、この状態で更新する。
 			setCartCourses(latestCartUpdate);
 		} else {
-      // 質問　こちらは値は返ってくる。
-      console.log(...cartCourses);
+      // 同一商品がなければカートに追加する。
 			setCartCourses([...cartCourses, {product: GFGcourse, quantity: 1}]);
 		}
 	};
@@ -60,10 +68,14 @@ const App = () => {
 						total + item.product.price * item.quantity, 0);
 	};
 
+  // 課目の検索機能は一旦休止させておく。全体の理解が先。
 	const courseSearchUserFunction = (event) => {
 		setSearchCourse(event.target.value);
 	};
 
+  // 基本的には科目全部を子コンポーネントに持ち運びするための変数。
+  // 検索したらその課目を子コンポーネントへ持ち出すためのフィルター付き。
+  // このフィルターは今深く考えないことにする。
 	const filterCourseFunction = courses.filter((course) =>
 		course.name.toLowerCase().includes(searchCourse.toLowerCase())
 	);
@@ -74,7 +86,9 @@ const App = () => {
 				courseSearchUserFunction={courseSearchUserFunction} />
 			<main className="App-main">
 				<ShowCourseComponent
+          // コード先頭で定義した課目をプロップスで渡す。
 					courses={courses}
+          // トップで定義した関数を渡す。
 					filterCourseFunction={filterCourseFunction}
 					addCourseToCartFunction={addCourseToCartFunction}
 				/>
