@@ -1,3 +1,4 @@
+
 # WPへの埋め込み
 
 __index.html__
@@ -41,6 +42,9 @@ __ page-cart.php　__
 ```
 
 # カート機能の実装
+
+参照したコード
+https://github.com/Index-Zero-0/react-js-shopping-cart
 
 ## アプリケーションの核をApp.jsで管理
 
