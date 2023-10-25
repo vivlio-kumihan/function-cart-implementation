@@ -1,8 +1,5 @@
 import React from "react";
-import {
-	BsStar,
-	BsStarFill,
-} from "react-icons/bs";
+import { BsStar, BsStarFill } from "react-icons/bs";
 
 function RatingStars({ rating }) {
 	const filledStars = Math.floor(rating);

@@ -2,11 +2,14 @@ import React, {
 	useState,
 	useEffect,
 } from "react";
-import "./style/main.css";
+import "./style/App.css";
+// 豊富な種類のアイコンがあるreact-icons
+// https://react-icons.github.io/react-icons/
 import { GiShoppingBag } from "react-icons/gi";
 import RatingStars from "./components/RatingStars";
 import ShoppingCart from "./components/ShoppingCart";
 
+// 商品データ
 const products = [
 	{
 		id: 1,
@@ -15,6 +18,8 @@ const products = [
 		description:
 			"Vivamus vitae neque accumsan, ultrices nisl et, viverra magna. Fusce nec maximus sem.",
 		price: 199,
+    // データ用のコンポーネントを作成して画像を管理する方法もあるが、
+    // 簡易的にはrequireで読み込む方法もある。
 		image: require("./assets/images/product-1.png"),
 	},
 	{
@@ -65,46 +70,29 @@ const products = [
 ];
 
 function App() {
-	const [cartsVisibilty, setCartVisible] =
-		useState(false);
+  // カート内に同じカートがあるかどうか存在の有無のための状態
+	const [cartsVisibilty, setCartVisible] = useState(false);
+
 	const [productsInCart, setProducts] =
-		useState(
-			JSON.parse(
-				localStorage.getItem(
-					"shopping-cart"
-				)
-			) || []
-		);
+		useState(JSON.parse(localStorage.getItem("shopping-cart")) || []);
+
 	useEffect(() => {
-		localStorage.setItem(
-			"shopping-cart",
-			JSON.stringify(productsInCart)
-		);
+		localStorage.setItem("shopping-cart", JSON.stringify(productsInCart));
 	}, [productsInCart]);
+
 	const addProductToCart = (product) => {
-		const newProduct = {
-			...product,
-			count: 1,
-		};
-		setProducts([
-			...productsInCart,
-			newProduct,
-		]);
+		const newProduct = { ...product, count: 1 };
+		setProducts([...productsInCart, newProduct]);
 	};
 
-	const onQuantityChange = (
-		productId,
-		count
-	) => {
+	const onQuantityChange = (productId, count) => {
 		setProducts((oldState) => {
-			const productsIndex =
-				oldState.findIndex(
-					(item) =>
-						item.id === productId
-				);
+      // 質問 この場合、{}ではエラーになる。()との違いがわかってない。
+			const productsIndex = oldState.findIndex((item) => (
+        item.id === productId
+    ));
 			if (productsIndex !== -1) {
-				oldState[productsIndex].count =
-					count;
+				oldState[productsIndex].count = count;
 			}
 			return [...oldState];
 		});
@@ -112,11 +100,9 @@ function App() {
 
 	const onProductRemove = (product) => {
 		setProducts((oldState) => {
-			const productsIndex =
-				oldState.findIndex(
-					(item) =>
-						item.id === product.id
-				);
+			const productsIndex = oldState.findIndex((item) => (
+        item.id === product.id
+      ));
 			if (productsIndex !== -1) {
 				oldState.splice(productsIndex, 1);
 			}
@@ -127,32 +113,28 @@ function App() {
 	return (
 		<div className="App">
 			<ShoppingCart
+        // 質問 props名はcartsVisibiltyでもいいのでは？
 				visibilty={cartsVisibilty}
+        // 質問 props名はproductsInCartでもいいのでは？
 				products={productsInCart}
-				onClose={() =>
-					setCartVisible(false)
-				}
-				onQuantityChange={
-					onQuantityChange
-				}
+				onClose={() => setCartVisible(false)}
+				onQuantityChange={onQuantityChange}
 				onProductRemove={onProductRemove}
 			/>
 			<div className="navbar">
 				<h3 className="logo">Logo</h3>
 				<button
 					className="btn shopping-cart-btn"
-					onClick={() =>
-						setCartVisible(true)
-					}>
+					onClick={() => setCartVisible(true)}>
 					<GiShoppingBag size={24} />
-					{productsInCart.length >
-						0 && (
+					{
+            productsInCart.length > 0 
+            && (
 						<span className="product-count">
-							{
-								productsInCart.length
-							}
+							{productsInCart.length}
 						</span>
-					)}
+            )
+          }
 				</button>
 			</div>
 			<main>
@@ -161,30 +143,20 @@ function App() {
 				</h2>
 				<div className="products">
 					{products.map((product) => (
-						<div
-							className="product"
-							key={product.id}>
+						<div className="product" key={product.id}>
 							<img
 								className="product-image"
-								src={
-									product.image
-								}
-								alt={
-									product.image
-								}
+								src={product.image}
+								alt={product.image}
 							/>
 							<h4 className="product-name">
 								{product.name}
 							</h4>
 							<RatingStars
-								rating={
-									product.rating
-								}
+								rating={product.rating}
 							/>
 							<p>
-								{
-									product.description
-								}
+								{product.description}
 							</p>
 							<span className="product-price">
 								{product.price}$
@@ -192,7 +164,7 @@ function App() {
 							<div className="buttons">
 								<button className="btn">
 									Detail
-								</button>
+								</button> 
 								<button
 									className="btn"
 									onClick={() =>

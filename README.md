@@ -46,6 +46,11 @@ __ page-cart.php　__
 参照したコード
 https://github.com/Index-Zero-0/react-js-shopping-cart
 
+# create app
+```
+npx create-react-app my-app
+```
+
 ## アプリケーションの核をApp.jsで管理
 
 ### App.js: 
